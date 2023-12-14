@@ -1,6 +1,7 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Input } from 'reactstrap';
 
 const Login = () => {
   const navigate = useNavigate()
@@ -29,25 +30,29 @@ const Login = () => {
 
 
   return (
-    <div>
+      <>
+      <div className='login-div'>
+    <div className='login-container'>
       <h2>Login</h2>
-      <input
+      <Input
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
+        />
+      <Input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-      />
+        />
       <button onClick={handleLogin}>Login</button>
       <p>
         Don't have an account? <button onClick={onSignUp}>Sign Up</button>
       </p>
     </div>
+        </div>
+        </>
   );
 };
 

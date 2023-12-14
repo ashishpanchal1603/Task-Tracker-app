@@ -6,9 +6,7 @@ const Header = () => {
   return (
     <header>
       <nav>
-        <ul>
-        hello
-        </ul>
+        <h1>Track App</h1>
       </nav>
     </header>
   );

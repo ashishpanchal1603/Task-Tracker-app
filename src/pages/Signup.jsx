@@ -1,6 +1,7 @@
 // src/components/SignUp.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'reactstrap';
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -15,7 +16,6 @@ const SignUp = () => {
   const isExit = userDetails?.find((data) => data?.username === username && data?.password === password)
   const handleSignUp = () => {
     // Check if the username is available
-    console.log('isExit', isExit)
     if (isExit) {
       alert('Username already exists. Please choose another.');
     } else {
@@ -45,7 +45,7 @@ const SignUp = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleSignUp}>Sign Up</button>
+      <Button onClick={handleSignUp}>Sign Up</Button>
     </div>
   );
 };

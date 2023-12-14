@@ -1,0 +1,31 @@
+.form-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+.login-div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.login-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  flex-direction: column;
+}
+
+.select-input{
+  height: 30px;
+}
+.table-represent{
+  padding: 24px;
+}
+
+.table-responsive .table {
+  max-width: none;
+  -webkit-overflow-scrolling: touch !important;
+}
