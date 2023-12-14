@@ -1,37 +1,54 @@
-// LoginForm.js
-import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+// src/components/Login.js
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const LoginForm = ({ signup }) => {
+const Login = () => {
+  const navigate = useNavigate()
   const [username, setUsername] = useState('');
-  const history = useHistory();
+  const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (username.trim() === '') {
-      alert('Please enter a username.');
-      return;
-    }
+  function onSignUp() {
+      navigate("/auth/signup");
+  }
 
-    if (signup) {
-      userSignup(username);
+ 
+
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const isExit = storedUser?.find((data)=> data?.username === username  && data?.password === password)
+  console.log('isExit', isExit)
+  const handleLogin = () => {
+    // Check if the user exists in localStorage
+    console.log('storedUser', storedUser)
+    if (isExit) {
+      localStorage.setItem("currentUser", JSON.stringify({username,password}))
+      navigate("/dashboard")
     } else {
-      login(username);
+      alert('Invalid credentials');
     }
-
-    history.push('/tasks');
   };
+
 
   return (
     <div>
-      <h2>{signup ? 'Sign Up' : 'Login'}</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Username:</label>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <button type="submit">{signup ? 'Sign Up' : 'Login'}</button>
-      </form>
+      <h2>Login</h2>
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleLogin}>Login</button>
+      <p>
+        Don't have an account? <button onClick={onSignUp}>Sign Up</button>
+      </p>
     </div>
   );
 };
 
-export default LoginForm;
+export default Login;

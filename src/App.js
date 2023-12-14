@@ -1,77 +1,39 @@
-import React, {  useState } from 'react';
-import Header from './Components/Header.jsx';
-
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import RouterRouter from "./Router"
 
 const App = () => {
-  const storedUser = localStorage.getItem('user');
-  const storedUsers = JSON.parse(localStorage.getItem('users')) || {};
-  const storedTasks = storedUsers[storedUser] || [];
+  const [user, setUser] = useState(null);
 
-  const [user, setUser] = useState(storedUser);
-  const [users, setUsers] = useState(storedUsers);
-  const [tasks, setTasks] = useState(storedTasks);
-
-  const login = (username) => {
-    setUser(username);
-
-    if (!users[username]) {
-      setUsers({ ...users, [username]: [] });
+  useEffect(() => {
+    // Load user and tasks from local storage on component mount
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      setUser(storedUser.username);
+      // Load tasks associated with the user
     }
+  }, []);
 
-    localStorage.setItem('user', username);
-    localStorage.setItem('users', JSON.stringify(users));
-  };
+  useEffect(() => {
+    // Save user to local storage whenever user is updated
+    if (user) {
+      localStorage.setItem('user', JSON.stringify({ username: user }));
+    } 
+  }, [user]);
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
-  };
 
-  const signup = (username) => {
-    if (!users[username]) {
-      login(username);
-    }
-  };
-
-  const addTask = (task) => {
-    setTasks([...tasks, { ...task }]);
-    setUsers({ ...users, [user]: [...tasks, { ...task }] });
-
-    localStorage.setItem('tasks', JSON.stringify([...tasks, { ...task }]));
-    localStorage.setItem('users', JSON.stringify(users));
-  };
-
-  const editTask = (taskId, updatedTask) => {
-    const updatedTasks = tasks.map((task) =>
-      task.id === taskId ? { ...task, ...updatedTask } : task
-    );
-
-    setTasks(updatedTasks);
-    setUsers({ ...users, [user]: updatedTasks });
-
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-    localStorage.setItem('users', JSON.stringify(users));
-  };
-
-  const deleteTask = (taskId) => {
-    const updatedTasks = tasks.filter((task) => task.id !== taskId);
-
-    setTasks(updatedTasks);
-    setUsers({ ...users, [user]: updatedTasks });
-
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-    localStorage.setItem('users', JSON.stringify(users));
-  };
-
-  const filterTasks = (status) => {
-    return tasks.filter((task) => task.status === status);
-  };
 
   return (
-        <div className="App">
-          <Header />
+    <>
+      <BrowserRouter>
+        <div>
+          <RouterRouter />
         </div>
+      </BrowserRouter>
+    </>
   );
 };
+
 
 export default App;
